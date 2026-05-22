@@ -22,7 +22,7 @@ ip             = "localhost"
 # ── Environment variables (non-secret) ──────────────────
 [vars]
 ENVIRONMENT     = "production"
-ALLOWED_ORIGIN  = "https://your-pages-domain.pages.dev"   # Lock CORS in prod
+ALLOWED_ORIGIN  = "const WORKER_URL = "https://ai-reply-assistant.YOUR-SUBDOMAIN.workers.dev/get-replies";"   # Lock CORS in prod
 
 # ──────────────────────────────────────────────────────────
 #  SECRETS — never put real values here.
