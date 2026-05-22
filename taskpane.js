@@ -5,8 +5,7 @@ Office.onReady((info) => {
   }
 });
 
-const WORKER_URL = "https://your-worker.your-domain.workers.dev/get-replies";
-
+const WORKER_URL = "https://ai-reply-assistant.YOUR-SUBDOMAIN.workers.dev/get-replies";
 // ── Main handler ─────────────────────────────────────────────────────────────
 async function onGenerate() {
   setStatus("Reading email...", "info");
