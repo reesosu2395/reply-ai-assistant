@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Reply Assistant</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script defer src="taskpane.js"></script>
+  <link rel="stylesheet"
+        href="https://static2.sharepointcdn.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/>
+  <link rel="stylesheet" href="taskpane.css" />
+</head>
+<body class="ms-Fabric">
+  <header>
+    <h1 class="ms-font-xl">✉ AI Reply Assistant</h1>
+    <p class="ms-font-s">Powered by Claude · Gemini Coatings</p>
+  </header>
+
+  <main>
+    <button id="generate-btn" class="ms-Button ms-Button--primary">
+      <span class="ms-Button-label">Generate Replies</span>
+    </button>
+
+    <p id="status-message" class="status"></p>
+
+    <div id="options-container"></div>
+  </main>
+</body>
+</html>
