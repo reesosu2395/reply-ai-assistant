@@ -1,0 +1,54 @@
+# ═══════════════════════════════════════════════════════════
+#  Wrangler configuration for AI Reply Assistant Worker
+#  Docs: https://developers.cloudflare.com/workers/wrangler/
+# ═══════════════════════════════════════════════════════════
+
+name       = "ai-reply-assistant"
+main       = "src/worker.js"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"   # wrangler whoami
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# ── Observability ────────────────────────────────────────
+[observability]
+enabled = true          # Enables Workers Logs in the dashboard
+
+# ── Local dev server ─────────────────────────────────────
+[dev]
+port          = 8787
+local_protocol = "http"
+ip             = "localhost"
+
+# ── Environment variables (non-secret) ──────────────────
+[vars]
+ENVIRONMENT     = "production"
+ALLOWED_ORIGIN  = "https://your-pages-domain.pages.dev"   # Lock CORS in prod
+
+# ──────────────────────────────────────────────────────────
+#  SECRETS — never put real values here.
+#  Set them via CLI:
+#    wrangler secret put ANTHROPIC_API_KEY
+# ──────────────────────────────────────────────────────────
+# The following secrets must be configured in your dashboard
+# or via the CLI before deploying:
+#
+#   ANTHROPIC_API_KEY   → your Anthropic API key
+
+# ── Rate limiting (optional, recommended for prod) ───────
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }   # 60 req/min per IP
+
+# ── Preview / Staging environment ───────────────────────
+[env.staging]
+name    = "ai-reply-assistant-staging"
+vars    = { ENVIRONMENT = "staging", ALLOWED_ORIGIN = "http://localhost:3000" }
+
+# ── Production environment ───────────────────────────────
+[env.production]
+name    = "ai-reply-assistant"
+routes  = [
+  { pattern = "your-worker.your-domain.com/get-replies", zone_name = "your-domain.com" }
+]

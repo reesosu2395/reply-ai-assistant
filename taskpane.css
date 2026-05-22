@@ -1,0 +1,241 @@
+/* ═══════════════════════════════════════════════════════════
+   AI Reply Assistant — Task Pane Styles
+   Aesthetic: Industrial utility meets clean Fluent UI
+   Palette: Deep navy, warm off-white, amber accent
+════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;600;700&display=swap');
+
+/* ── Reset & Tokens ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0f1e2e;
+  --navy-mid:    #162535;
+  --navy-light:  #1e3347;
+  --amber:       #f0a500;
+  --amber-dim:   #c98900;
+  --off-white:   #f4efe8;
+  --muted:       #7a90a4;
+  --border:      rgba(240, 165, 0, 0.18);
+  --card-bg:     rgba(30, 51, 71, 0.6);
+  --radius:      8px;
+  --font-ui:     'Sora', sans-serif;
+  --font-mono:   'DM Mono', monospace;
+  --transition:  180ms ease;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+html, body {
+  height: 100%;
+  background: var(--navy);
+  color: var(--off-white);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grid texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,165,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,165,0,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ─────────────────────────────────────────────── */
+header, main {
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+}
+
+header h1 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--off-white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+header h1::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 8px var(--amber);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   box-shadow: 0 0 8px var(--amber); }
+  50%       { opacity: 0.4; box-shadow: 0 0 2px var(--amber); }
+}
+
+header p {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+main {
+  padding: 14px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Generate Button ────────────────────────────────────── */
+#generate-btn {
+  width: 100%;
+  padding: 10px 0;
+  background: var(--amber);
+  color: var(--navy);
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 12px rgba(240, 165, 0, 0.25);
+  text-transform: uppercase;
+}
+
+#generate-btn:hover  { background: var(--amber-dim); box-shadow: 0 4px 18px rgba(240,165,0,0.35); }
+#generate-btn:active { transform: translateY(1px); box-shadow: none; }
+
+#generate-btn:disabled {
+  background: var(--navy-light);
+  color: var(--muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ── Status Message ─────────────────────────────────────── */
+#status-message {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  min-height: 16px;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  transition: opacity var(--transition), background var(--transition);
+  display: none;                         /* hidden until JS sets a message */
+}
+
+#status-message:not(:empty) { display: block; }
+
+.status--info    { background: rgba(122,144,164,0.12); color: var(--muted);   border-left: 3px solid var(--muted); }
+.status--success { background: rgba( 80,200,120,0.10); color: #50c878;        border-left: 3px solid #50c878; }
+.status--warn    { background: rgba(240,165,  0,0.10); color: var(--amber);   border-left: 3px solid var(--amber); }
+.status--error   { background: rgba(220, 60, 60,0.12); color: #e05c5c;        border-left: 3px solid #e05c5c; }
+
+/* ── Options Container ──────────────────────────────────── */
+#options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Option Card ────────────────────────────────────────── */
+.option-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  backdrop-filter: blur(6px);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  animation: slideIn 240ms ease both;
+}
+
+.option-card:hover {
+  border-color: rgba(240, 165, 0, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Stagger card entrance */
+.option-card:nth-child(1) { animation-delay:  40ms; }
+.option-card:nth-child(2) { animation-delay: 100ms; }
+.option-card:nth-child(3) { animation-delay: 160ms; }
+.option-card:nth-child(4) { animation-delay: 220ms; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Option Label ───────────────────────────────────────── */
+.option-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+/* ── Option Preview Text ────────────────────────────────── */
+.option-preview {
+  font-size: 12px;
+  color: #b0c4d8;
+  line-height: 1.55;
+  border-left: 2px solid var(--navy-light);
+  padding-left: 8px;
+}
+
+/* ── Use This Reply Button ──────────────────────────────── */
+.option-card button {
+  align-self: flex-start;
+  padding: 5px 12px;
+  background: transparent;
+  color: var(--amber);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.option-card button:hover {
+  background: var(--amber);
+  color: var(--navy);
+  border-color: var(--amber);
+}
+
+.option-card button:active {
+  background: var(--amber-dim);
+  border-color: var(--amber-dim);
+}
+
+/* ── Scrollbar (webkit) ─────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
